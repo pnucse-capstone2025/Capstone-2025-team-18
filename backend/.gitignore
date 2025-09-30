@@ -1,0 +1,20 @@
+# environment
+env
+.env
+venv
+.venv
+.DS_Store
+.vscode
+
+completed/
+temp_structures/
+model_structures/
+mlartifacts/
+mlruns/
+*.pt
+*.pth
+.cache/
+cache/  
+mlflow/
+
+__pycache__/

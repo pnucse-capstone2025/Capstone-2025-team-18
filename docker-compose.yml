@@ -1,0 +1,123 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: slm-redis
+    ports: ["6379:6379"]
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v3.3.2
+    container_name: slm-mlflow
+    command: >
+      mlflow server --host 0.0.0.0 --port 5000
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+    volumes:
+      - ./backend/mlflow:/mlflow # <-- 바인드 마운트로 변경
+    ports: ["5000:5000"]
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: slm-backend
+    working_dir: /app/backend
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - HF_HOME=/data/hf
+      - HF_DATASETS_CACHE=/data/hf/datasets
+      - TRANSFORMERS_CACHE=/data/hf/transformers
+    volumes:
+      - ./backend:/app/backend # 코드 저장 시 즉시 반영 (uvicorn --reload)
+      - ./backend/model_structures:/app/backend/model_structures # 모델 구조를 로컬에서도 확인
+      - hf_cache:/data/hf
+      - ./backend/completed:/app/backend/completed # 호스트 볼륨으로 교체
+    depends_on: [redis, mlflow]
+    ports: ["8000:8000"]
+    command: > # reload 옵션 제거
+      uvicorn main:app --host 0.0.0.0 --port 8000
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: slm-celery-worker
+    working_dir: /app/backend
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - REDIS_URL=redis://redis:6379/0
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - HF_HOME=/data/hf
+      - HF_DATASETS_CACHE=/data/hf/datasets
+      - TRANSFORMERS_CACHE=/data/hf/transformers
+      # Deepspeed
+      - DS_BUILD_OPS=0
+      - DS_SKIP_CUDA_CHECK=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      - ./backend:/app/backend # 코드 변경 시 자동 재시작 감지
+      - ./backend/model_structures:/app/backend/model_structures # 모델 구조를 로컬에서도 확인
+      - hf_cache:/data/hf
+      - ./backend/completed:/app/backend/completed # 호스트 볼륨으로 교체
+    depends_on: [redis, mlflow, backend]
+    gpus: all
+    command: >
+      watchmedo auto-restart
+      --directory=/app/backend
+      --pattern="*.py"
+      --ignore-patterns="*.pyc;*~;__pycache__/*;*.log"
+      --recursive
+      --interval=1 --
+      celery -A celery_worker.celery_app worker --loglevel=info
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: slm-frontend
+    working_dir: /app/frontend
+    environment:
+      - VITE_API_BASE=http://localhost:8000
+      - CHOKIDAR_USEPOLLING=true # WSL/도커 파일감시 보정
+      - CHOKIDAR_INTERVAL=100
+    volumes:
+      - ./frontend:/app/frontend # 덮어씀 방지
+      - frontend_node_modules:/app/frontend/node_modules
+    depends_on: [backend]
+    ports: ["5173:5173"]
+    command: npm run dev -- --host 0.0.0.0
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  redis_data:
+  frontend_node_modules:
+  hf_cache:

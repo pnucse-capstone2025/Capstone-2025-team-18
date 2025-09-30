@@ -1,237 +1,193 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/nRcUn8vA)
-# Template for Capstone
-이 레파지토리는 학생들이 캡스톤 프로젝트 결과물을 위한 레파지토리 생성시에 참고할 내용들을 담고 있습니다.
-1. 레파지토리 생성
-2. 레파지토리 구성
-3. 레파지토리 제출 
-4. README.md 가이드라인
-5. README.md 작성팁
+# 졸업과제 – SLaM Dunk: 경량 언어 모델 학습 플랫폼
+
+## 1. 프로젝트 배경
+
+### 1.1 국내외 시장 현황 및 문제점
+
+- 대규모 언어 모델(LLM)은 다양한 자연어 처리 작업에서 뛰어난 성능을 발휘하고 있음.
+- 하지만 학습과 운영에 막대한 **GPU 자원, 메모리, 비용**이 요구되어 교육/연구 현장에서 활용하기 어려움.
+- 특히 개인 연구자나 학생들이 **직접 모델 구조를 이해하고 실험**하기에는 접근 장벽이 큼.
+- 따라서, 가벼운 환경에서도 학습 가능한 **경량 언어 모델(Small Language Model, SLM)** 기반 학습 플랫폼의 필요성이 대두됨.
+
+### 1.2 필요성과 기대효과
+
+- **웹 기반 시각화 도구**를 통해 사용자가 직접 모델 구조를 설계하고 직관적으로 이해할 수 있음.
+- **구성 → 학습 → 추론** 전 과정을 경험함으로써 언어 모델의 원리를 쉽게 체득 가능.
+- **소규모 데이터셋 + 경량 모델**을 통해 GPU 자원이 제한된 환경에서도 학습 실습이 가능.
+- 교육 및 연구 목적에 최적화된 **공개형 실습 플랫폼**으로 활용될 수 있음.
 
 ---
 
-## 1. 레파지토리 생성
-- [https://classroom.github.com/a/nRcUn8vA](https://classroom.github.com/a/nRcUn8vA)
-- 위 Github Classroom 링크에 접속해 본인 조의 github 레파지토리를 생성하세요.
+## 2. 개발 목표
 
-<img width="700" alt="깃헙 클래스룸 레포 생성" src="https://github.com/user-attachments/assets/34ca1f43-c2cd-4880-a39e-0dafd889c35f" />
+### 2.1 목표 및 세부 내용
 
-- 레포지토리 생성 시 팀명은 `TEAM-{조 번호}` 형식으로 생성하세요.
-- 예를 들어, 2025년도 3조의 팀명은 `TEAM-03` 입니다.
-- 이 경우 `Capstone2025-team-03`이란 이름으로 레파지토리가 생성됩니다.
+- **프론트엔드(Canvas)**: ReactFlow 기반 Drag & Drop 방식으로 모델 블록 구성
+- **백엔드(FastAPI + Celery)**: JSON 기반 모델 구조 검증 및 학습 태스크 실행
+- **실시간 모니터링**: Redis Pub/Sub + SSE 기반 학습 로그 및 상태 스트리밍
+- **실험 관리**: MLflow를 활용하여 하이퍼파라미터와 결과 기록 관리
+- **추론 기능**: 학습 완료 모델을 활용한 텍스트 생성 API 제공
 
----
+### 2.2 기존 서비스 대비 차별성
 
-## 2. 레파지토리 구성
-- 레파지토리 내에 README.md 파일 생성하고 아래의 가이드라인과 작성팁을 참고하여 README.md 파일을 작성하세요. (이 레파지토리의 SAMPLE_README.md 참조)
-- 레파지토리 내에 docs 디렉토리를 생성하고 docs 디렉토리 내에는 과제 수행 하면서 작성한 각종 보고서, 발표자료를 올려둡니다. (이 레파지토리의 docs 디렉토리 참조)
-- 그 밖에 레파지토리의 폴더 구성은 과제 결과물에 따라 자유롭게 구성하되 가급적 코드의 목적이나 기능에 따라 디렉토리를 나누어 구성하세요.
+- 단순 추론 서비스가 아닌, 사용자가 **직접 모델을 설계하고 학습**할 수 있는 환경 제공
+- **블록 단위 시각화**를 통한 교육 친화적 UI/UX 제공
+- **모델 설계 → 학습 → 추론**이 하나의 파이프라인에서 통합적으로 동작
 
----
+### 2.3 사회적 가치 도입 계획
 
-## 3. 레파지토리 제출 
-
-- **`[주의]` 레파지토리 제출**은 해당 레파지토리의 ownership을 **학과 계정**으로 넘기는 것이므로 되돌릴 수 없습니다.
-- **레파지토리 제출** 전, 더 이상 수정 사항이 없는지 다시 한번 확인하세요.
-- github 레파지토리에서 Settings > General > Danger zone > Transfer 클릭
-  <img src="https://github.com/user-attachments/assets/cb2361d4-e07e-4b5d-9116-aa80dddd8a8b" alt="소유주 변경 경로" width="500" />
-  
-- [ Specify an organization or username ]에 'PNUCSE'를 입력하고 확인 메세지를 입력하세요.
-  <img src="https://github.com/user-attachments/assets/7c63955d-dcfe-4ac3-bdb6-7d2620575f3a" alt="소유주 변경" width="400" />
+- **공공성**: 누구나 웹 환경에서 무료로 접근 가능
+- **지속 가능성**: 모듈화된 구조로 다양한 모델과 기능 확장이 용이
 
 ---
 
-## 4. README.md 가이드 라인
-- README 파일 작성시에 아래의 5가지 항목의 내용은 필수적으로 포함해야 합니다.
-- 아래의 항목이외에 프로젝트의 이해를 돕기 위한 내용을 추가해도 됩니다.
-- SAMPLE_README.md 이 단순한 형태의 예제이니 참고하세요.
+## 3. 시스템 설계
 
-```markdown
-### 1. 프로젝트 배경
-#### 1.1. 국내외 시장 현황 및 문제점
-> 시장 조사 및 기존 문제점 서술
+### 3.1 시스템 구성도
 
-#### 1.2. 필요성과 기대효과
-> 왜 이 프로젝트가 필요한지, 기대되는 효과 등
+본 프로젝트는 **프론트엔드 – 백엔드 – 학습 워커 – 실험 관리**의 구조로 설계되었습니다.  
+사용자는 웹 UI에서 모델 구조를 설계하고, 백엔드를 통해 학습을 요청하며, 학습 상태는 실시간으로 모니터링할 수 있습니다.
 
-### 2. 개발 목표
-#### 2.1. 목표 및 세부 내용
-> 전체적인 개발 목표, 주요 기능 및 기획 내용
+### 3.2 사용 기술
 
-#### 2.2. 기존 서비스 대비 차별성 
-> 유사 서비스 비교 및 차별점 부각
+- **Frontend**
 
-#### 2.3. 사회적 가치 도입 계획 
-> 프로젝트의 공공성, 지속 가능성, 환경 보호 등
-### 3. 시스템 설계
-#### 3.1. 시스템 구성도
-> 이미지 혹은 텍스트로 시스템 아키텍쳐 작성
->
-#### 3.2. 사용 기술
-> 프론트엔드, 백엔드, API 등 구체 기술 스택
+  - React, ReactFlow: 모델 구조 시각화 및 드래그 앤 드롭 구성
+  - TypeScript, TailwindCSS: 안정적인 UI 개발 및 스타일링
+  - Vite: 프론트엔드 개발 환경 및 번들링
 
-### 4. 개발 결과
-#### 4.1. 전체 시스템 흐름도
-> 기능 흐름 설명 및 도식화 가능
->
-#### 4.2. 기능 설명 및 주요 기능 명세서
-> 주요 기능에 대한 상세 설명, 각 기능의 입력/출력 및 설명
->
-#### 4.3. 디렉토리 구조
->
-#### 4.4. 산업체 멘토링 의견 및 반영 사항
-> 멘토 피드백과 적용한 사례 정리
+- **Backend**
 
-### 5. 설치 및 실행 방법
->
-#### 5.1. 설치절차 및 실행 방법
-> 설치 명령어 및 준비 사항, 실행 명령어, 포트 정보 등
-#### 5.2. 오류 발생 시 해결 방법
-> 선택 사항, 자주 발생하는 오류 및 해결책 등
+  - FastAPI: REST API 서버
+  - Celery: 비동기 학습 태스크 처리
+  - Redis: Pub/Sub 기반 학습 상태 스트리밍 및 태스크 제어
+  - MLflow: 실험 관리 및 결과 추적
 
-### 6. 소개 자료 및 시연 영상
-#### 6.1. 프로젝트 소개 자료
-> PPT 등
-#### 6.2. 시연 영상
-> 영상 링크 또는 주요 장면 설명
+- **Machine Learning**
 
-### 7. 팀 구성
-#### 7.1. 팀원별 소개 및 역할 분담
->
-#### 7.2. 팀원 별 참여 후기
-> 개별적으로 느낀 점, 협업, 기술적 어려움 극복 사례 등
+  - PyTorch: 모델 구현 및 학습
+  - HuggingFace Datasets: 학습 데이터셋 로드
+  - Custom Modules: TokenEmbedding, PositionalEmbedding, Attention 등 모듈 단위 구현
 
-### 8. 참고 문헌 및 출처
+- **Infrastructure**
+  - Docker, Docker Compose: 서비스 컨테이너 관리
+  - GitHub: 형상 관리 및 협업
+
+---
+
+## 4. 개발 결과
+
+### 4.1 전체 시스템 흐름도
+
+본 시스템은 **프론트엔드 – 백엔드 – 학습 워커 – 결과 저장소**의 파이프라인으로 동작합니다.  
+사용자는 웹에서 모델을 설계하고 학습을 시작하면, 백엔드가 Celery 워커를 통해 학습을 수행하고 그 과정을 SSE로 실시간 전송합니다. 학습이 완료된 모델은 저장소에 보관되며 추론 API를 통해 활용할 수 있습니다.
+
+![시스템 구성도](docs/03.발표자료/system.png)
+_(예: 학습 요청 → 모델 구조 검증 → 학습 실행 → 상태 모니터링 → 결과 저장/추론)_
+
+---
+
+### 4.2 기능 설명 및 주요 기능 명세서
+
+| 기능                                         | 설명                                                                       | 입력                                | 출력                                    |
+| -------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------- | --------------------------------------- |
+| **모델 구조 검증**                           | 프론트에서 설계한 JSON 기반 모델 구조를 PyTorch 모듈로 변환 가능 여부 확인 | Layer JSON                          | 구조 검증 결과 (성공/실패, 파라미터 수) |
+| **학습 시작 (/train-complete-model)**        | 모델 구조 검증 후 MLflow에 Run 생성, Celery 태스크로 학습 시작             | 모델 JSON, Config, Dataset          | 학습 태스크 ID, SSE URL, MLflow 링크    |
+| **실시간 상태 스트리밍 (/events/{task_id})** | Redis Pub/Sub 기반으로 학습 상태(에포크, 손실 값, 완료 여부) 스트리밍      | Task ID                             | SSE 이벤트 스트림                       |
+| **학습 중단 (/stop-training)**               | Redis Stop Flag 또는 강제 kill로 학습 종료                                 | Task ID                             | 중단 요청 결과                          |
+| **완료 모델 관리 (/completed-models)**       | 학습 완료된 모델 목록 조회                                                 | -                                   | 완료 모델 리스트 (구조 파일 여부 포함)  |
+| **추론 (/generate-text)**                    | 학습된 모델을 불러와 입력 텍스트에 대한 생성 결과 반환                     | 모델명, 입력 텍스트, 하이퍼파라미터 | 생성된 텍스트                           |
+
+---
+
+### 4.3 디렉토리 구조
 
 ```
 
-## 5. README.md 작성팁 
-* 마크다운 언어를 이용해 README.md 파일을 작성할 때 참고할 수 있는 마크다운 언어 문법을 공유합니다.  
-* 다양한 예제와 보다 자세한 문법은 [이 문서](https://www.markdownguide.org/basic-syntax/)를 참고하세요.
+backend/
+├── completed/ # 학습 완료된 모델(.pt) 저장
+├── ml/ # 모델 관련 모듈 (factory 등)
+├── mlartifacts/ # MLflow 아티팩트 저장소
+├── mlruns/ # MLflow 실험 기록
+├── model_structures/ # 저장된 모델 구조 정의
+├── routes/ # FastAPI 라우터
+│ ├── train_routes.py # 학습 시작, 모델 검증
+│ ├── inference_routes.py # 텍스트 생성 추론
+│ ├── completed_routes.py # 완료 모델 조회
+│ ├── stop_routes.py # 학습 중단
+│ └── events.py # SSE 이벤트 스트리밍
+├── tasks/ # Celery 학습 태스크
+│ ├── train.py # 학습 및 손실 계산 루프
+│ ├── dataset.py # 데이터셋 로더
+│ ├── tokenizers.py # 토크나이저 어댑터
+│ └── structure.py # 모델 구조 검증
+├── temp_structures/ # 임시 모델 구조 JSON
+├── venv/ # 가상환경 (개발용)
+├── celery_app.py # Celery 설정
+├── celery_worker.py # Celery 워커 실행 스크립트
+├── deps.py # Redis 연결 등 공통 의존성
+├── main.py # FastAPI 실행 진입점
+├── Dockerfile # 백엔드 도커 설정
+├── requirements.txt # Python 의존성 패키지
+└── README.md
 
-### 5.1. 헤더 Header
 ```
-# This is a Header 1
-## This is a Header 2
-### This is a Header 3
-#### This is a Header 4
-##### This is a Header 5
-###### This is a Header 6
-####### This is a Header 7 은 지원되지 않습니다.
+
 ```
-<br />
-
-### 5.2. 인용문 BlockQuote
+frontend/
+├── public/
+│ └── img/ # 정적 이미지 리소스
+│ └── basketball.svg
+├── src/
+│ ├── assets/ # 정적 자원
+│ ├── constants/ # 모델 설정 및 필드 정의
+│ ├── nodes/ # ReactFlow 노드 컴포넌트
+│ ├── store/ # 전역 상태 관리
+│ ├── ui-component/ # 공통 UI 컴포넌트
+│ ├── App.tsx # 메인 앱 엔트리
+│ ├── ButtonEdge.tsx # 커스텀 엣지 컴포넌트
+│ ├── Config.tsx # 모델 설정 패널
+│ ├── DatasetSelection.tsx # 데이터셋 선택 UI
+│ ├── FlowCanvas.tsx # 모델 설계 캔버스
+│ ├── Sidebar.tsx # 사이드바 UI
+│ ├── SidebarNodeItem.tsx # 사이드바 노드 항목
+│ └── TestPage.tsx # 테스트용 페이지
+├── index.css # 전역 스타일
+├── main.tsx # React 엔트리포인트
+└── package.json # 프론트엔드 의존성
 ```
-> This is a first blockqute.
->	> This is a second blockqute.
->	>	> This is a third blockqute.
+
+---
+
+## 5. 설치 및 실행
+
+```bash
+docker compose up -d
 ```
-> This is a first blockqute.
->	> This is a second blockqute.
->	>	> This is a third blockqute.
-<br />
 
-### 5.3. 목록 List
-* **Ordered List**
-```
-1. first
-2. second
-3. third  
-```
-1. first
-2. second
-3. third
-<br />
+## 5.2 오류 해결
 
-* **Unordered List**
-```
-* 하나
-  * 둘
+- **Redis 연결 오류** → `docker ps`로 Redis 실행 여부 확인
+- **MLflow 연결 오류** → `MLFLOW_TRACKING_URI` 환경변수 확인
 
-+ 하나
-  + 둘
+## 6. 소개 자료 및 시연 영상
 
-- 하나
-  - 둘
-```
-* 하나
-  * 둘
+- 프로젝트 발표 PPT: `/docs/03.발표자료/presentation.pdf`
+- 시연 영상
+  ![프로젝트 시연](docs/03.발표자료/프로젝트%20시연%201.gif)
 
-+ 하나
-  + 둘
+## 7. 팀 구성
 
-- 하나
-  - 둘
-<br />
+- **김명석 (팀장)** – 프로젝트 총괄, 프론트엔드(React, ReactFlow) UI 개발 및 모델 노드 시각화
+- **염현석** – 백엔드(FastAPI, Celery, Redis) 설계 및 학습 파이프라인 구현
+- **정지윤** – 데이터셋 로딩 및 전처리, MLflow 기반 실험 관리 및 결과 분석
 
-### 5.4. 코드 CodeBlock
-* 코드 블럭 이용 '``'
-```
-여러줄 주석 "```" 이용
-"```
-#include <stdio.h>
-int main(void){
-  printf("Hello world!");
-  return 0;
-}
-```"
+## 8. 참고 문헌 및 출처
 
-단어 주석 "`" 이용
-"`Hello world`"
-
-* 큰 따움표(") 없이 사용하세요.
-``` 
-<br />
-
-### 5.5. 링크 Link
-```
-[Title](link)
-[부산대학교 정보컴퓨터공학부](https://cse.pusan.ac.kr/cse/index..do)
-
-<link>
-<https://cse.pusan.ac.kr/cse/index..do>
-``` 
-[부산대학교 정보컴퓨터공학부](https://cse.pusan.ac.kr/cse/index..do)
-
-<https://cse.pusan.ac.kr/cse/index..do>
-<br />
-
-### 5.6. 강조 Highlighting
-```
-*single asterisks*
-_single underscores_
-**double asterisks**
-__double underscores__
-~~cancelline~~
-```
-*single asterisks* <br />
-_single underscores_ <br />
-**double asterisks** <br />
-__double underscores__ <br />
-~~cancelline~~  <br />
-<br />
-
-### 5.7. 이미지 Image
-```
-<img src="image URL" width="600px" title="Title" alt="Alt text"></img>
-![Alt text](image URL "Optional title")
-```
-- 웹에서 작성한다면 README.md 내용 안으로 이미지를 드래그 앤 드롭하면 이미지가 생성됩니다.
-- 웹이 아닌 로컬에서 작성한다면, github issue에 이미지를 드래그 앤 드롭하여 image url 을 얻을 수 있습니다. (URL만 복사하고 issue는 제출 안 함.)
-  <img src="https://github.com/user-attachments/assets/0fe3bff1-7a2b-4df3-b230-cac4ef5f6d0b" alt="이슈에 image 올림" width="600" />
-  <img src="https://github.com/user-attachments/assets/251c6d42-b36b-4ad4-9cfa-fa2cc67a9a50" alt="image url 복사" width="600" />
-
-
-### 5.8. 유튜브 영상 추가
-```markdown
-[![영상 이름](유튜브 영상 썸네일 URL)](유튜브 영상 URL)
-[![부산대학교 정보컴퓨터공학부 소개](http://img.youtube.com/vi/zh_gQ_lmLqE/0.jpg)](https://www.youtube.com/watch?v=zh_gQ_lmLqE)    
-```
-[![부산대학교 정보컴퓨터공학부 소개](http://img.youtube.com/vi/zh_gQ_lmLqE/0.jpg)](https://www.youtube.com/watch?v=zh_gQ_lmLqE)    
-
-- 이때 유튜브 영상 썸네일 URL은 유투브 영상 URL로부터 다음과 같이 얻을 수 있습니다.
-
-- `Youtube URL`: https://www.youtube.com/watch?v={동영상 ID}
-- `Youtube Thumbnail URL`: http://img.youtube.com/vi/{동영상 ID}/0.jpg 
-- 예를 들어, https://www.youtube.com/watch?v=zh_gQ_lmLqE 라고 하면 썸네일의 주소는 http://img.youtube.com/vi/zh_gQ_lmLqE/0.jpg 이다.
-
+1. S. Raschka, _Build a Large Language Model From Scratch_. OceanofPDF, 2024.
+2. T. Brown et al., “Language Models are Few-Shot Learners,” in _Advances in Neural Information Processing Systems (NeurIPS)_, 2020.
+3. Meta AI, “LLaMA: Open and Efficient Foundation Language Models,” _arXiv:2302.13971_, 2023.
+4. MLflow. (2024). _MLflow: Open source platform for the machine learning lifecycle_. [Online]. Available: [https://mlflow.org](https://mlflow.org)
+5. S. Raschka, _Build a Large Language Model From Scratch — Official Code Repository_, GitHub, 2024. [Online]. Available: [https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch)
+6. HuggingFace Datasets. [Online]. Available: [https://huggingface.co/datasets](https://huggingface.co/datasets)
+7. Redis Pub/Sub Documentation. [Online]. Available: [https://redis.io/docs/interact/pubsub](https://redis.io/docs/interact/pubsub)
